@@ -1,0 +1,122 @@
+<div class="container-fluid">
+  <div class="well">
+    <!-- input form-->
+    <b>Add new person</b>
+    <div class="row-fluid">
+      <div class="span4">
+        <input class="text-center" type="tel"
+               ng-model="name"
+               ng-change="cart.saveItems()"/>
+      </div>
+      <form name="myForm" class="span5 row-fluid" >
+          <span  class="span5">
+            <label>
+              <input type="checkbox" ng-model="checkboxModel.superPowerValue" >
+              Super power
+            </label>
+          </span>
+          <span  class="span3">
+            <label>
+              <input type="checkbox" ng-model="checkboxModel.richValue">
+              Rich
+            </label>
+          </span>
+          <span  class="span4">
+            <label >
+              <input type="checkbox" ng-model="checkboxModel.geniusValue">
+              Genius
+            </label>
+          </span>
+      </form>
+      <p class="span2">
+        <button
+          class="btn btn-block btn-primary"
+          ng-click="cart.addItem(name, checkboxModel.superPowerValue, checkboxModel.richValue, checkboxModel.geniusValue, 1)">
+          <i class="icon-ok icon-white" /> Add
+        </button>
+      </p>
+    </div>
+    <!--table-->
+    <div class="row-fluid">
+      <div class="span12">
+        <table ng-hide="cart.getTotalCount() == 0" class="table table-striped">
+          <!-- header -->
+          <tr class="well">
+            <td class="pagination-centered">
+              <b ng-click="sortType = 'name'; sortReverse = !sortReverse">Name
+                <span ng-show="sortType == 'name' && !sortReverse" class="icon-chevron-down icon-black"></span>
+                <span ng-show="sortType == 'name' && sortReverse" class="icon-chevron-up icon-black"></span>
+              </b>
+            </td>
+            <td class="tdCenter">
+              <b ng-click="sortType = 'superpower'; sortReverse = !sortReverse">Super Power
+                <span ng-show="sortType == 'superpower' && !sortReverse" class="icon-chevron-down icon-black"></span>
+                <span ng-show="sortType == 'superpower' && sortReverse" class="icon-chevron-up icon-black"></span>
+              </b>
+            </td>
+            <td class="tdCenter">
+              <b ng-click="sortType = 'rich'; sortReverse = !sortReverse">Rich
+                <span ng-show="sortType == 'rich' && !sortReverse" class="icon-chevron-down icon-black"></span>
+                <span ng-show="sortType == 'rich' && sortReverse" class="icon-chevron-up icon-black"></span>
+              </b>
+            </td>
+            <td class="tdCenter">
+              <b ng-click="sortType = 'genius'; sortReverse = !sortReverse">Genius
+                <span ng-show="sortType == 'genius' && !sortReverse" class="icon-chevron-down icon-black"></span>
+                <span ng-show="sortType == 'genius' && sortReverse" class="icon-chevron-up icon-black"></span>
+              </b>
+            </td>
+            <td class="tdCenter"><b>Delete</b></td>
+          </tr>
+
+          <!-- cart items -->
+          <!--<tr  ng-repeat="item in cart.items | orderBy: ctrl.orderExpression | filter: ctrl.filterExpression">-->
+          <tr  ng-repeat="item in cart.items | orderBy: sortType:sortReverse | filter: ctrl.filterExpression">
+            <td>{{item.name}}</td>
+            <td class="tdCenter">
+              <input type="checkbox"  ng-checked="item.superpower"
+                     ng-click="cart.addItem(item.name, !item.superpower, item.rich, item.genius, +0)">
+            </td>
+            <td class="tdCenter">
+              <input type="checkbox" ng-checked="item.rich"
+                     ng-click="cart.addItem(item.name, item.superpower, !item.rich, item.genius, +0)">
+            </td>
+            <td class="tdCenter">
+              <input type="checkbox" ng-checked="item.genius"
+                     ng-click="cart.addItem(item.name, item.superpower, item.rich, !item.genius, +0)">
+            <td class="tdCenter span4">
+            <!--Yes and No buttons-->
+              <a href="" ng-click="collapseButton();buttonsVisible[$index]=true" ng-hide="buttonsVisible[$index]">
+                <i class="icon-remove" />
+              </a>
+              <span ng-show="buttonsVisible[$index]">Are You sure?  </span>
+              <button
+                ng-show="buttonsVisible[$index]"
+                class="btn btn-success" type="button"
+                ng-disabled="item.quantity >= 1000"
+                ng-click="cart.addItem(item.name, item.superpower, item.rich, item.genius, -10000000);buttonsVisible[$index]=false">
+                Yes
+              </button>
+              <button
+                ng-show="buttonsVisible[$index]"
+                class="btn btn-inverse" type="button"
+                ng-click="buttonsVisible[$index]=false">
+                No
+              </button>
+            </td>
+          </tr>
+        </table>
+        <!--Filter buttons-->
+        <div class="row-fluid" id="js-navbar-collapse">
+          <ul >
+            <li class="span2"><a ng-href="#/super" a-disabled="cart.getFilterCount('superpower') == 0">Super Power</a></li>
+            <li class="span1"><a ng-href="#/rich" a-disabled="cart.getFilterCount('rich') == 0">Rich</a></li>
+            <li class="span1"><a ng-href="#/genius" a-disabled="cart.getFilterCount('genius') == 0">Genius</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</div>
