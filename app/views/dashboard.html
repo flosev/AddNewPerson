@@ -70,7 +70,6 @@
           </tr>
 
           <!-- cart items -->
-          <!--<tr  ng-repeat="item in cart.items | orderBy: ctrl.orderExpression | filter: ctrl.filterExpression">-->
           <tr  ng-repeat="item in cart.items | orderBy: sortType:sortReverse | filter: ctrl.filterExpression">
             <td>{{item.name}}</td>
             <td class="tdCenter">
@@ -107,7 +106,7 @@
           </tr>
         </table>
         <!--Filter buttons-->
-        <div class="row-fluid" id="js-navbar-collapse">
+        <div class="row-fluid" id="js-navbar-collapse" ng-hide="cart.getTotalCount() == 0" >
           <ul >
             <li class="span2"><a ng-href="#/super" a-disabled="cart.getFilterCount('superpower') == 0">Super Power</a></li>
             <li class="span1"><a ng-href="#/rich" a-disabled="cart.getFilterCount('rich') == 0">Rich</a></li>
